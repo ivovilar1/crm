@@ -4,6 +4,7 @@ namespace Tests\Feature\Livewire\Auth;
 
 use App\Livewire\Auth\Register;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
@@ -23,7 +24,8 @@ it('should be able to register a new user in the system', function () {
         ->set('email_confirmation', 'joe@doe.com')
         ->set('password', 'password')
         ->call('submit')
-        ->assertHasNoErrors();
+        ->assertHasNoErrors()
+        ->assertRedirect(RouteServiceProvider::HOME);
 
     assertDatabaseHas('users', [
         'name' => 'Joe Doe',

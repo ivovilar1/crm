@@ -1,16 +1,19 @@
-import forms from '@tailwindcss/forms'
-import typo from '@tailwindcss/typography'
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-      "./resources/**/*.blade.php",
-      "./resources/**/*.js",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [
-      forms, typo
-  ],
-}
+    content: [
+        // You will probably also need those lines
+        "./resources/**/**/*.blade.php",
+        "./resources/**/**/*.js",
+        "./app/View/Components/**/**/*.php",
+        "./app/Livewire/**/**/*.php",
 
+        // Add mary
+        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
+    ],
+    theme: {
+        extend: {},
+    },
+
+    // Add daisyUI
+    plugins: [require("daisyui")]
+}

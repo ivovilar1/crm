@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Auth;
 
 use App\Livewire\Auth\Register;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
@@ -29,6 +30,10 @@ it('should be able to register a new user in the system', function () {
         'email' => 'joe@doe.com'
     ]);
     assertDatabaseCount('users', 1);
+
+    expect(auth()->check())
+        ->and(auth()->user())
+        ->id->toBe(User::first()->id) ;
 });
 
 test('validation rules', function ($f) {

@@ -27,11 +27,12 @@ class Register extends Component
     {
         $this->validate();
 
-        User::query()
+        $user = User::query()
             ->create([
                 'name' => $this->name,
                 'email' => $this->email,
                 'password' => $this->password
             ]);
+        auth()->login($user);
     }
 }

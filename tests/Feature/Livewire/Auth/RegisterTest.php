@@ -4,9 +4,11 @@ namespace Tests\Feature\Livewire\Auth;
 
 use App\Livewire\Auth\Register;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 use Tests\TestCase;
 use function Pest\Laravel\assertDatabaseCount;
@@ -60,3 +62,17 @@ test('validation rules', function ($f) {
     'email::unique' => (object)['field' => 'email', 'value' => 'joe@doe.com', 'rule' => 'unique', 'aField' => 'email_confirmation', 'aValue' => 'joe@doe.com'],
     'password::required' => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
+
+it('should send a notification welcoming the new user', function () {
+    Notification::fake();
+
+    Livewire::test(Register::class)
+        ->set('name', 'Joe Doe')
+        ->set('email', 'joe@doe.com')
+        ->set('email_confirmation', 'joe@doe.com')
+        ->set('password', 'password')
+        ->call('submit');
+
+    $user = User::whereEmail('joe@doe.com')->first();
+    Notification::assertSentTo($user, WelcomeNotification::class);
+});

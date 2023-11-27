@@ -22,6 +22,7 @@ class Login extends Component
             'email'    => $this->email,
             'password' => $this->password,
         ])) {
+            $this->addError('invalidCredentials', trans('auth.failed'));
             return;
         }
         $this->redirect(route('dashboard'));

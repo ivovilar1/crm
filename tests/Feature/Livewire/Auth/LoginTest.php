@@ -11,8 +11,8 @@ it('renders successfully', function () {
 
 it('should be able to login', function () {
     $user = User::factory()->create([
-        'email' => 'joe@doe.com',
-        'password' => 'password'
+        'email'    => 'joe@doe.com',
+        'password' => 'password',
     ]);
 
     Livewire::test(Login::class)

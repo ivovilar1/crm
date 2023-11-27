@@ -9,6 +9,7 @@ use Livewire\Component;
 class Login extends Component
 {
     public ?string $email;
+
     public ?string $password;
     public function render(): View
     {
@@ -18,10 +19,10 @@ class Login extends Component
     public function tryToLogin(): void
     {
         if(!Auth::attempt([
-            'email' => $this->email,
-            'password' => $this->password
+            'email'    => $this->email,
+            'password' => $this->password,
         ])) {
-            return ;
+            return;
         }
         $this->redirect(route('dashboard'));
     }

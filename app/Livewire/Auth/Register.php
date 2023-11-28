@@ -37,6 +37,7 @@ class Register extends Component
                 'email'    => $this->email,
                 'password' => $this->password,
             ]);
+        /** @var User $user  */
         auth()->login($user);
 
         $user->notify(new WelcomeNotification());

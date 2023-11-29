@@ -11,11 +11,13 @@ use Livewire\Component;
 class Recovery extends Component
 {
     public ?string $message;
+
     #[Rule(['email', 'required'])]
     public ?string $email;
     public function render(): View
     {
-        return view('livewire.auth.password.recovery');
+        return view('livewire.auth.password.recovery')
+            ->layout('components.layouts.guest');
     }
 
     public function startPasswordRecovery(): void

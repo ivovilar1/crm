@@ -4,6 +4,7 @@ namespace App\Livewire\Auth\Password;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Password;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
@@ -13,10 +14,10 @@ class Recovery extends Component
 
     #[Rule(['email', 'required'])]
     public ?string $email;
+    #[Layout('components.layouts.guest')]
     public function render(): View
     {
-        return view('livewire.auth.password.recovery')
-            ->layout('components.layouts.guest');
+        return view('livewire.auth.password.recovery');
     }
 
     public function startPasswordRecovery(): void

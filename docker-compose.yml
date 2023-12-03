@@ -52,6 +52,7 @@ services:
             - laravel
     mailhog:
         image: mailhog/mailhog
+        restart: unless-stopped
         logging:
             driver: 'none'
         ports:

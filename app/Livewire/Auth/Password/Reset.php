@@ -2,17 +2,12 @@
 
 namespace App\Livewire\Auth\Password;
 
-
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\{DB, Hash, Password};
 use Illuminate\Support\Str;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
+use Livewire\Attributes\{Computed, Layout, Rule};
 use Livewire\Component;
 
 class Reset extends Component
@@ -55,7 +50,7 @@ class Reset extends Component
         $status = Password::reset(
             $this->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, $password) {
-                $user->password = $password;
+                $user->password       = $password;
                 $user->remember_token = Str::random(60);
                 $user->save();
 
@@ -67,9 +62,8 @@ class Reset extends Component
         session()->flash('status', __($status));
 
         if ($status !== Password::PASSWORD_RESET) {
-           return ;
+            return;
         }
-
 
         $this->redirect(route('login'));
     }

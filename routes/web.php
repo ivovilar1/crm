@@ -12,14 +12,13 @@ Route::get('/password/recovery', Password\Recovery::class)->name('password.recov
 Route::get('/password/reset', Password\Reset::class)->name('password.reset');
 //endregion
 
-
 //region Authenticated
 Route::middleware('auth')->group(function () {
     Route::get('/', Welcome::class)->name('dashboard');
 
     //region Admin
     Route::prefix('/admin')->middleware('can:be-an-admin')->group(function () {
-        Route::get('/dashboard', fn() => 'admin.dashboard')->name('admin.dashboard');
+        Route::get('/dashboard', fn () => 'admin.dashboard')->name('admin.dashboard');
     });
     //endregion
 

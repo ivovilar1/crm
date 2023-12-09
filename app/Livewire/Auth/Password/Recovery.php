@@ -4,8 +4,7 @@ namespace App\Livewire\Auth\Password;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Password;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
+use Livewire\Attributes\{Layout, Rule};
 use Livewire\Component;
 
 class Recovery extends Component

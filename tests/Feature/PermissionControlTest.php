@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\{Can, Permission, User};
+use App\Enum\Can;
+use App\Models\{Permission, User};
 use Database\Seeders\{PermissionSeeder, UsersSeeder};
 use Illuminate\Support\Facades\{Cache, DB};
-
 use function Pest\Laravel\{actingAs, assertDatabaseHas, seed};
 
 it('should be able to give an user a permission to do something', function () {

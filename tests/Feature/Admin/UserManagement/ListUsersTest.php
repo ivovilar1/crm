@@ -20,20 +20,32 @@ test('making sure that the route is protected by the permission BE_AN_ADMIN', fu
     get(route('admin.users'))->assertForbidden();
 });
 
-it("let's create a livewire component to list all users in the page", function () {
+test("let's create a livewire component to list all users in the page", function () {
 
-
+    actingAs(User::factory()->admin()->create());
     $users = User::factory()->count(10)->create();
 
     $livewire = Livewire::test(Admin\Users\Index::class);
     $livewire->assertSet('users', function ($users) {
                 expect($users)
-                    ->toBeInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class)
-                    ->toHaveCount(10);
+                    ->toHaveCount(101);
 
                 return true;
             });
     foreach ($users as $user) {
         $livewire->assertSee($user->name);
     }
+});
+
+test('check the table format', function () {
+
+    actingAs(User::factory()->admin()->create());
+
+    Livewire::test(Admin\Users\Index::class)
+        ->assertSet('headers', fn ($headers) => [
+            ['key' => 'id', 'label' => '#'],
+            ['key' => 'name', 'label' => 'Name'],
+            ['key' => 'email', 'label' => 'Email'],
+            ['key' => 'permissions', 'label' => 'Permissions'],
+        ]);
 });

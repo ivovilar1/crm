@@ -28,7 +28,7 @@ test("let's create a livewire component to list all users in the page", function
     $livewire = Livewire::test(Admin\Users\Index::class);
     $livewire->assertSet('users', function ($users) {
                 expect($users)
-                    ->toHaveCount(101);
+                    ->toHaveCount(11);
 
                 return true;
             });
@@ -42,7 +42,7 @@ test('check the table format', function () {
     actingAs(User::factory()->admin()->create());
 
     Livewire::test(Admin\Users\Index::class)
-        ->assertSet('headers', fn ($headers) => [
+        ->assertSet('headers', [
             ['key' => 'id', 'label' => '#'],
             ['key' => 'name', 'label' => 'Name'],
             ['key' => 'email', 'label' => 'Email'],

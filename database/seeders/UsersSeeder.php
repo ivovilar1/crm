@@ -16,5 +16,7 @@ class UsersSeeder extends Seeder
                 'name'  => 'Admin',
                 'email' => 'admin@crm.com',
             ]);
+
+        User::factory()->count(50)->create();
     }
 }

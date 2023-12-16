@@ -16,6 +16,8 @@ use Livewire\Component;
 class Index extends Component
 {
     public ?string $search = null;
+
+    public array $search_permissions = [];
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -28,16 +30,28 @@ class Index extends Component
     #[Computed]
     public function users(): Collection
     {
+        $this->validate(['search_permissions' => 'exists:permissions,id']);
+
         return User::query()
-            ->when($this->search, fn(Builder $query) => $query
+            ->when(
+                $this->search, fn(Builder $query) => $query
                 ->where(
                     DB::raw('lower(name)'), /** @phpstan-ignore-line */
                     'like',
-                    '%' . strtolower($this->search) . '%'))
-            ->orWhere(
-                'email',
-                'like',
-                '%' . $this->search . '%')
+                    '%' . strtolower($this->search) . '%'
+                )
+                ->orWhere(
+                    'email',
+                    'like',
+                    '%' . $this->search . '%'
+                )
+            )
+            ->when(
+                $this->search_permissions,
+                fn(Builder $query ) => $query->whereHas('permissions', function (Builder $q) {
+                    $q->whereIn('id', $this->search_permissions);
+                })
+            )
             ->get();
     }
 

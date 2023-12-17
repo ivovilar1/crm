@@ -12,10 +12,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 /** @property-read Collection|User[] $users */
 class Index extends Component
 {
+    use WithPagination;
     public ?string $search = null;
 
     public bool $search_trash = false;

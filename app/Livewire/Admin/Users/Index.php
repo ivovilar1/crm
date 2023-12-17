@@ -26,6 +26,8 @@ class Index extends Component
     public string $sortDirection = 'asc' ;
 
     public string $sortColumnBy = 'id';
+
+    public int $perPage = 15;
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -37,7 +39,7 @@ class Index extends Component
     }
 
     #[Computed]
-    public function users(): Collection
+    public function users(): LengthAwarePaginator
     {
         $this->validate(['search_permissions' => 'exists:permissions,id']);
 
@@ -64,7 +66,7 @@ class Index extends Component
             ->when($this->search_trash,
                 fn(Builder $query) => $query->onlyTrashed()) /** @phpstan-ignore-line */
             ->orderBy($this->sortColumnBy, $this->sortDirection)
-            ->get();
+            ->paginate($this->perPage);
     }
 
     #[Computed]

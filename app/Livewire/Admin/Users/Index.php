@@ -18,6 +18,8 @@ class Index extends Component
 {
     public ?string $search = null;
 
+    public bool $search_trash = false;
+
     public Collection $permissionsToSearch;
     public array $search_permissions = [];
     public function mount(): void
@@ -55,6 +57,8 @@ class Index extends Component
                     $q->whereIn('id', $this->search_permissions);
                 })
             )
+            ->when($this->search_trash,
+                fn(Builder $query) => $query->onlyTrashed()) /** @phpstan-ignore-line */
             ->get();
     }
 

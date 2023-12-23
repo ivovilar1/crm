@@ -71,5 +71,5 @@
             @endscope
         </x-table>
 
-    {{ $this->users->links() }}
+    {{ $this->users->links(data :['scrollTo' => false]) }}
 </div>

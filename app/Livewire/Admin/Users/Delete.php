@@ -8,9 +8,12 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Delete extends Component
 {
+    use Toast;
+
     public ?User $user = null;
 
     #[Rule(['required', 'confirmed'])]
@@ -38,6 +41,8 @@ class Delete extends Component
         $this->validate();
 
         $this->user->delete();
+
+        $this->success('User deleted successfully!');
 
         $this->user->notify(new UserDeletedNotification());
 

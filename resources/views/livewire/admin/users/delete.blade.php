@@ -1,3 +1,7 @@
 <div>
-    {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
+    <x-button wire:click="$set('modal', true)" />
+
+    @if($modal)
+
+    @endif
 </div>

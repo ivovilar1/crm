@@ -40,6 +40,11 @@ class Delete extends Component
 
         $this->validate();
 
+        if ($this->isSameUser()) {
+            $this->addError('confirmation', "You can't delete yourself.");
+            return ;
+        }
+
         $this->user->delete();
 
         $this->success('User deleted successfully!');
@@ -50,5 +55,10 @@ class Delete extends Component
 
         $this->reset('modal');
 
+    }
+
+    private function isSameUser(): bool
+    {
+       return $this->user->is(auth()->user());
     }
 }

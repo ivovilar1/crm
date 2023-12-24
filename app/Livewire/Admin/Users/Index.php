@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -35,6 +36,8 @@ class Index extends Component
         $this->authorize(Can::BE_AN_ADMIN->value);
         $this->filterPermissions();
     }
+
+    #[On('user::deleted')]
     public function render(): View
     {
         return view('livewire.admin.users.index');
@@ -101,5 +104,10 @@ class Index extends Component
     {
         $this->sortColumnBy = $column;
         $this->sortDirection = $direction;
+    }
+
+    public function destroy(int $id): void
+    {
+        $this->dispatch('user::deletion', userID: $id)->to('admin.users.delete');
     }
 }

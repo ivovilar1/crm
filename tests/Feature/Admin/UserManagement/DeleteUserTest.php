@@ -1,14 +1,12 @@
 <?php
 
-
+use App\Livewire\Admin;
 use App\Models\User;
 use App\Notifications\UserDeletedNotification;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
-use App\Livewire\Admin;
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\assertNotSoftDeleted;
-use function Pest\Laravel\assertSoftDeleted;
+
+use function Pest\Laravel\{actingAs, assertNotSoftDeleted, assertSoftDeleted};
 
 it('should be able to delete an user', function () {
 
@@ -27,6 +25,11 @@ it('should be able to delete an user', function () {
     assertSoftDeleted('users', [
         'id' => $userForDeletion->id,
     ]);
+
+    $userForDeletion->refresh();
+
+    expect($userForDeletion)
+        ->deletedBy->id->toBe($user->id);
 });
 
 it('should have a confirmation before deletion', function () {
@@ -44,7 +47,7 @@ it('should have a confirmation before deletion', function () {
         ->assertNotDispatched('user::deleted');
 
     assertNotSoftDeleted('users', [
-        'id' => $userForDeletion->id
+        'id' => $userForDeletion->id,
     ]);
 
 });
@@ -82,6 +85,6 @@ it('should not be possible to delete the logged user', function () {
         ->assertNotDispatched('user::deleted');
 
     assertNotSoftDeleted('users', [
-        'id' => $user->id
+        'id' => $user->id,
     ]);
 });

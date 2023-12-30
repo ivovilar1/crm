@@ -1,9 +1,8 @@
 <?php
 
 use App\Enum\Can;
-use App\Livewire\Admin;
 use App\Livewire\Auth\{Login, Logout, Password, Register};
-use App\Livewire\Welcome;
+use App\Livewire\{Admin, Welcome};
 use Illuminate\Support\Facades\Route;
 
 //region Login Flow

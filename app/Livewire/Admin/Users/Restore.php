@@ -3,20 +3,20 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
-use App\Notifications\UserDeletedNotification;
+use App\Notifications\UserRestoredAccessNotification;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\{On, Rule};
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Delete extends Component
+class Restore extends Component
 {
     use Toast;
 
     public ?User $user = null;
 
     #[Rule(['required', 'confirmed'])]
-    public string $confirmation = 'I WANT TO DELETE';
+    public string $confirmation = 'I WANT TO RESTORE';
 
     public ?string $confirmation_confirmation = null;
 
@@ -24,17 +24,17 @@ class Delete extends Component
 
     public function render(): View
     {
-        return view('livewire.admin.users.delete');
+        return view('livewire.admin.users.restore');
     }
 
-    #[On('user::deletion')]
+    #[On('user::restoring')]
     public function openConfirmationFor(int $userID): void
     {
-        $this->user  = User::select('id', 'name')->find($userID);
+        $this->user  = User::select('id', 'name')->withTrashed()->find($userID);
         $this->modal = true;
     }
 
-    public function destroy(): void
+    public function restore(): void
     {
 
         $this->validate();
@@ -45,16 +45,19 @@ class Delete extends Component
             return;
         }
 
-        $this->user->delete();
+        $this->user->restore();
 
-        $this->user->deleted_by = auth()->user()->id;
+        $this->user->restored_at = now();
+
+        $this->user->restored_by = auth()->user()->id;
+
         $this->user->save();
 
-        $this->success('User deleted successfully!');
+        $this->success('User restored successfully!');
 
-        $this->user->notify(new UserDeletedNotification());
+        $this->user->notify(new UserRestoredAccessNotification());
 
-        $this->dispatch('user::deleted');
+        $this->dispatch('user::restored');
 
         $this->reset('modal');
 

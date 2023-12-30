@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserDeletedNotification extends Notification
+class UserRestoredAccessNotification extends Notification
 {
     use Queueable;
 
@@ -34,7 +34,7 @@ class UserDeletedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
-                    ->line('You no longer have access to the ' . config('app.name'))
+                    ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }

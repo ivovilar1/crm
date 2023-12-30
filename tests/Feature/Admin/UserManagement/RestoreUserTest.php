@@ -6,6 +6,7 @@ use App\Notifications\UserRestoredAccessNotification;
 
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
+
 use function Pest\Laravel\{actingAs, assertNotSoftDeleted, assertSoftDeleted};
 
 it('should be able to restore a user', function () {

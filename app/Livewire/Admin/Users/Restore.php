@@ -5,8 +5,7 @@ namespace App\Livewire\Admin\Users;
 use App\Models\User;
 use App\Notifications\UserRestoredAccessNotification;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Rule;
+use Livewire\Attributes\{On, Rule};
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -31,7 +30,7 @@ class Restore extends Component
     #[On('user::restoring')]
     public function openConfirmationFor(int $userID): void
     {
-        $this->user = User::select('id', 'name')->withTrashed()->find($userID);
+        $this->user  = User::select('id', 'name')->withTrashed()->find($userID);
         $this->modal = true;
     }
 
@@ -42,11 +41,11 @@ class Restore extends Component
 
         if ($this->isSameUser()) {
             $this->addError('confirmation', "You can't delete yourself.");
-            return ;
+
+            return;
         }
 
         $this->user->restore();
-
 
         $this->user->restored_at = now();
 
@@ -66,6 +65,6 @@ class Restore extends Component
 
     private function isSameUser(): bool
     {
-       return $this->user->is(auth()->user());
+        return $this->user->is(auth()->user());
     }
 }

@@ -17,6 +17,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasPermissions;
     use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,7 +29,7 @@ class User extends Authenticatable
         'password',
         'restored_at',
         'restored_by',
-        'deleted_by'
+        'deleted_by',
     ];
 
     /**

@@ -5,8 +5,7 @@ namespace App\Livewire\Admin\Users;
 use App\Models\User;
 use App\Notifications\UserDeletedNotification;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Rule;
+use Livewire\Attributes\{On, Rule};
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -31,7 +30,7 @@ class Delete extends Component
     #[On('user::deletion')]
     public function openConfirmationFor(int $userID): void
     {
-        $this->user = User::select('id', 'name')->find($userID);
+        $this->user  = User::select('id', 'name')->find($userID);
         $this->modal = true;
     }
 
@@ -42,7 +41,8 @@ class Delete extends Component
 
         if ($this->isSameUser()) {
             $this->addError('confirmation', "You can't delete yourself.");
-            return ;
+
+            return;
         }
 
         $this->user->delete();
@@ -62,6 +62,6 @@ class Delete extends Component
 
     private function isSameUser(): bool
     {
-       return $this->user->is(auth()->user());
+        return $this->user->is(auth()->user());
     }
 }

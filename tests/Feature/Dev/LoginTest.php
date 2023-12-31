@@ -17,3 +17,17 @@ it('should be able to list all users of the system', function () {
 
 
 });
+
+it('should be able to login with any user', function () {
+
+
+    $user = User::factory()->create();
+
+    Livewire::test(Login::class)
+        ->set('selectedUser', $user->id)
+        ->call('login')
+        ->assertRedirect(route('dashboard'));
+
+    \Pest\Laravel\assertAuthenticatedAs($user);
+
+});

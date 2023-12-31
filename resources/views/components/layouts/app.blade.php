@@ -47,6 +47,11 @@
 
     <!-- The `$slot` goes here -->
     <x-slot:content>
+
+        @if(session('impersonate'))
+            {{ __("You are impersonating :name, click here to stop the impersonation.", ['name'=> auth()->user()->name]) }}
+        @endif
+
         {{ $slot }}
     </x-slot:content>
 </x-main>

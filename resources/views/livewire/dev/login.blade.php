@@ -1,4 +1,4 @@
-<div class="flex items-center p-2 bg-red-900 space-x-2 justify-end">
+<div class="flex items-center p-2 bg-red-900 space-x-2">
     <x-select
         class="select-sm"
         icon="o-user"

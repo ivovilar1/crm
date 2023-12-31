@@ -14,7 +14,7 @@
 @endif
 
 @if(!app()->environment('production'))
-    <livewire:dev.login />
+    <x-devbar />
 @endif
 
 <x-main full-width>

@@ -2,6 +2,7 @@
 
 
 use App\Livewire\Admin\Users\Impersonate;
+use App\Livewire\Admin\Users\StopImpersonate;
 use App\Models\User;
 use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
@@ -44,4 +45,29 @@ it('should make sure that we are logged with the impersonated user', function ()
     expect(auth()->id())->toBe($user->id);
 
 
+});
+
+
+it('should be able to stop impersonation', function () {
+    $admin = User::factory()->admin()->create();
+    $user  = User::factory()->create();
+
+    actingAs($admin);
+
+    expect(auth()->id())->toBe($admin->id);
+
+    Livewire::test(Impersonate::class)
+        ->call('impersonate', $user->id)
+        ->assertRedirect(route('dashboard'));
+
+    Livewire::test(StopImpersonate::class)
+        ->call('stop')
+        ->assertRedirect(route('admin.users'));
+
+    expect(session('impersonate'))->toBeNull();
+
+    get(route('dashboard'))
+        ->assertDontSee(__("You are impersonating :name, click here to stop the impersonation.", ['name' => $user->name]));
+
+    expect(auth()->user()->id)->toBe($admin->id);
 });

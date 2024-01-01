@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\Auth\SendNewCode;
 use App\Listeners\Auth\CreateValidationCode;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -19,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             CreateValidationCode::class
         ],
+        SendNewCode::class => [
+            CreateValidationCode::class
+        ]
     ];
 
     /**

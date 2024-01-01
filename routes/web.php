@@ -1,7 +1,7 @@
 <?php
 
 use App\Enum\Can;
-use App\Livewire\Auth\{Login, Logout, Password, Register};
+use App\Livewire\Auth\{EmailValidation, Login, Logout, Password, Register};
 use App\Livewire\{Admin, Welcome};
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('auth.register');
 Route::get('/logout', Logout::class)->name('auth.logout');
-Route::get('/email-validation', fn() => 'teste')->middleware('auth')->name('auth.email-validation');
+Route::get('/email-validation', EmailValidation::class)->middleware('auth')->name('auth.email-validation');
 Route::get('/password/recovery', Password\Recovery::class)->name('password.recovery');
 Route::get('/password/reset', Password\Reset::class)->name('password.reset');
 //endregion

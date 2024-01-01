@@ -63,21 +63,6 @@ test('validation rules', function ($f) {
     'password::required' => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
 
-it('should send a notification welcoming the new user', function () {
-    Notification::fake();
-
-    Livewire::test(Register::class)
-        ->set('name', 'Joe Doe')
-        ->set('email', 'joe@doe.com')
-        ->set('email_confirmation', 'joe@doe.com')
-        ->set('password', 'password')
-        ->call('submit');
-
-    $user = User::whereEmail('joe@doe.com')->first();
-    Notification::assertSentTo($user, WelcomeNotification::class);
-});
-
-
 it('should dispatch Registered Event', function () {
 
     Event::fake();

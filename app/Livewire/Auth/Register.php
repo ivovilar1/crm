@@ -42,8 +42,6 @@ class Register extends Component
         /** @var User $user  */
         auth()->login($user);
 
-        $user->notify(new WelcomeNotification());
-
         Event::dispatch(new Registered($user));
 
         $this->redirect(route('auth.email-validation'));

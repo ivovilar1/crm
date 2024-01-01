@@ -5,13 +5,15 @@ namespace App\Livewire\Auth;
 use App\Events\Auth\SendNewCode;
 use App\Models\User;
 use App\Notifications\Auth\ValidationCodeNotification;
+use App\Notifications\WelcomeNotification;
+use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class EmailValidation extends Component
 {
-    public ?string $code = null;
+    public ?int $code = null;
 
     public function render(): View
     {
@@ -27,6 +29,21 @@ class EmailValidation extends Component
                 }
             },
         ]);
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        $user->validation_code = null;
+
+        $user->email_verified_at = now();
+
+        $user->save();
+
+        $user->notify(new WelcomeNotification());
+
+        $this->redirect(RouteServiceProvider::HOME);
+
+
     }
 
     public function sendNewCode(): void

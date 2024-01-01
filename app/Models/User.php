@@ -33,6 +33,7 @@ class User extends Authenticatable implements Auditable
         'restored_at',
         'restored_by',
         'deleted_by',
+        'validation_code'
     ];
 
     /**

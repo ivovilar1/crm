@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('auth.register');
 Route::get('/logout', Logout::class)->name('auth.logout');
+Route::get('/email-validation', fn() => 'teste')->name('auth.email-validation');
 Route::get('/password/recovery', Password\Recovery::class)->name('password.recovery');
 Route::get('/password/reset', Password\Reset::class)->name('password.reset');
 //endregion

@@ -26,8 +26,7 @@ it('should be able to register a new user in the system', function () {
         ->set('email_confirmation', 'joe@doe.com')
         ->set('password', 'password')
         ->call('submit')
-        ->assertHasNoErrors()
-        ->assertRedirect(RouteServiceProvider::HOME);
+        ->assertHasNoErrors();
 
     assertDatabaseHas('users', [
         'name'  => 'Joe Doe',

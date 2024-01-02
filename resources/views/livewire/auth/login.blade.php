@@ -27,13 +27,8 @@
                 @endif
             <x-form wire:submit="tryToLogin" class="space-y-4">
                 <div>
-                    <label
-                        for="email"
-                        class="block text-sm font-medium text-gray-700"
-                    >
-                        Email
-                    </label>
                     <x-input
+                        label="Email"
                         wire:model="email"
                         class="mt-1 p-2 w-full border rounded-md focus:border-gray-200
                         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors
@@ -41,13 +36,8 @@
                     />
                 </div>
                 <div>
-                    <label
-                        for="password"
-                        class="block text-sm font-medium text-gray-700"
-                    >
-                        Password
-                    </label>
                     <x-input
+                        label="Password"
                         wire:model="password"
                         type="password"
                         class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2

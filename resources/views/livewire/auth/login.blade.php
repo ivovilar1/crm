@@ -1,5 +1,5 @@
 <div class="flex h-screen w-full">
-    <div class="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
+    <div class="lg:flex items-center justify-center flex-1">
         <div class="max-w-md text-center">
             <x-draw.login />
         </div>

@@ -8,7 +8,7 @@
     <div class="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
         <div class="max-w-md w-full p-6">
             <h1 class="text-3xl font-semibold mb-6 text-black text-center">Welcome to your CRM</h1>
-            @if($message = session()->get('status'))--}}
+            @if($message = session()->get('status'))
                     <x-alert icon="o-exclamation-triangle" class="alert-error mb-4">
                         {{ $message }}
                     </x-alert>

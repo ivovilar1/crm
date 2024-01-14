@@ -13,6 +13,22 @@ beforeEach(function () {
     actingAs($user);
 });
 
+it('should be able to create a customer', function () {
+    Livewire::test(Customers\Create::class)
+        ->set('name', 'John Doe')
+        ->set('email', 'joe@doe.com')
+        ->set('phone', '123456789')
+        ->call('save')
+        ->assertHasNoErrors();
+
+    assertDatabaseHas('customers', [
+        'name'  => 'John Doe',
+        'email' => 'joe@doe.com',
+        'phone' => '123456789',
+        'type'  => 'customer',
+    ]);
+});
+
 describe('validations', function () {
     test('name', function ($rule, $value) {
         Livewire::test(Customers\Create::class)

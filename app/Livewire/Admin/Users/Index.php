@@ -3,6 +3,8 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Enum\Can;
+use App\Support\Table\Header;
+use App\Traits\Livewire\HasTable;
 use App\Models\{Permission, User};
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\{Builder, Collection};
@@ -15,8 +17,7 @@ use Livewire\{Component, WithPagination};
 class Index extends Component
 {
     use WithPagination;
-
-    public ?string $search = null;
+    use HasTable;
 
     public bool $search_trash = false;
 
@@ -24,11 +25,6 @@ class Index extends Component
 
     public array $search_permissions = [];
 
-    public string $sortDirection = 'asc';
-
-    public string $sortColumnBy = 'id';
-
-    public int $perPage = 15;
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -47,27 +43,10 @@ class Index extends Component
         $this->resetPage();
     }
 
-    #[Computed]
-    public function users(): LengthAwarePaginator
+    public function query(): Builder
     {
-        $this->validate(['search_permissions' => 'exists:permissions,id']);
-
         return User::query()
             ->with('permissions')
-            ->when(
-                $this->search,
-                fn (Builder $query) => $query
-                ->where(
-                    DB::raw('lower(name)'), /** @phpstan-ignore-line */
-                    'like',
-                    '%' . strtolower($this->search) . '%'
-                )
-                ->orWhere(
-                    'email',
-                    'like',
-                    '%' . $this->search . '%'
-                )
-            )
             ->when(
                 $this->search_permissions,
                 fn (Builder $query) => $query->whereHas('permissions', function (Builder $q) {
@@ -76,20 +55,25 @@ class Index extends Component
             )
             ->when(
                 $this->search_trash,
-                fn (Builder $query) => $query->onlyTrashed()
-            ) /** @phpstan-ignore-line */
-            ->orderBy($this->sortColumnBy, $this->sortDirection)
-            ->paginate($this->perPage);
+                fn (Builder $query) => $query->onlyTrashed() /** @phpstan-ignore-line */
+            );
     }
 
-    #[Computed]
-    public function headers(): array
+    public function searchColumns(): array
     {
         return [
-            ['key' => 'id', 'label' => '#', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'name', 'label' => 'Name', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'email', 'label' => 'Email', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
-            ['key' => 'permissions', 'label' => 'Permissions', 'sortColumnBy' => $this->sortColumnBy, 'sortDirection' => $this->sortDirection],
+            'name',
+            'email'
+        ];
+    }
+
+    public function tableHeaders(): array
+    {
+        return [
+            Header::make('id', '#'),
+            Header::make('name', 'Name'),
+            Header::make('email', 'Email'),
+            Header::make('permissions', 'Permissions')
         ];
     }
 
@@ -99,12 +83,6 @@ class Index extends Component
             ->when($value, fn (Builder $query) => $query->where('key', 'like', '%' . $value . '%'))
             ->orderBy('key')
             ->get();
-    }
-
-    public function sortBy(string $column, string $direction): void
-    {
-        $this->sortColumnBy  = $column;
-        $this->sortDirection = $direction;
     }
 
     public function destroy(int $id): void

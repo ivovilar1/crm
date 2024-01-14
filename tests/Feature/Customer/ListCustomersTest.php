@@ -52,7 +52,7 @@ it('should be able to filter by name and email', function () {
 
     actingAs($user);
     Livewire::test(Customers\Index::class)
-        ->assertSet('customer', function ($customers) {
+        ->assertSet('customers', function ($customers) {
             expect($customers)->toHaveCount(2);
 
             return true;

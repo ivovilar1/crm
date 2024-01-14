@@ -2,9 +2,14 @@
 
 namespace App\Traits\Livewire;
 
+use App\Models\Customer;
 use App\Support\Table\Header;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 
+/** @property-read LengthAwarePaginator|Customer[] $items */
+/** @property-read array $headers */
 trait HasTable
 {
 
@@ -18,7 +23,17 @@ trait HasTable
 
     /** @return Header[] */
     abstract public function tableHeaders(): array;
+    abstract public function query(): Builder;
+    abstract public function searchColumns(): array;
 
+    #[Computed]
+    public function items():  LengthAwarePaginator
+    {
+        return $this->query()
+            ->search($this->search, $this->searchColumns())
+            ->orderBy($this->sortColumnBy, $this->sortDirection)
+            ->paginate($this->perPage);
+    }
     #[Computed]
     public function headers(): array
     {
@@ -33,5 +48,9 @@ trait HasTable
         })->toArray();
     }
 
-
+    public function sortBy(string $column, string $direction): void
+    {
+        $this->sortColumnBy  = $column;
+        $this->sortDirection = $direction;
+    }
 }

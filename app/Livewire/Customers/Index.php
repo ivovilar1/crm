@@ -12,8 +12,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-/** @property-read LengthAwarePaginator|Customer[] $customers */
-/** @property-read array $headers */
+
 class Index extends Component
 {
     use WithPagination;
@@ -24,13 +23,17 @@ class Index extends Component
         return view('livewire.customers.index');
     }
 
-    #[Computed]
-    public function customers():  LengthAwarePaginator
+    public function query(): Builder
     {
-        return Customer::query()
-            ->search($this->search, ['name','email'])
-            ->orderBy($this->sortColumnBy, $this->sortDirection)
-            ->paginate($this->perPage);
+        return Customer::query();
+    }
+
+    public function searchColumns(): array
+    {
+        return [
+            'name',
+            'email'
+        ];
     }
 
     public function tableHeaders(): array

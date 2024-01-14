@@ -46,101 +46,49 @@ test('check the table format', function () {
 });
 
 it('should be able to filter by name and email', function () {
+    $user  = User::factory()->create();
+    $joe   = Customer::factory()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
+    $mario = Customer::factory()->create(['name' => 'Mario', 'email' => 'little_guy@gmail.com']);
 
-    $admin      = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@gmail.com']);
-    $userRandom = User::factory()->create(['name' => 'Random Guy', 'email' => 'random_guy@gmai.com']);
-
-    actingAs($admin);
-
+    actingAs($user);
     Livewire::test(Customers\Index::class)
-        ->assertSet('customers', function ($customers) {
-            expect($customers)
-                ->toHaveCount(2);
+        ->assertSet('customer', function ($customers) {
+            expect($customers)->toHaveCount(2);
 
             return true;
         })
-        ->set('search', 'Rand')
+        ->set('search', 'mar')
         ->assertSet('customers', function ($customers) {
             expect($customers)
                 ->toHaveCount(1)
-                ->first()->name
-                ->toBe('Random Guy');
+                ->first()->name->toBe('Mario');
 
             return true;
         })
         ->set('search', 'guy')
-            ->assertSet('customers', function ($customers) {
-                expect($customers)
-                    ->toHaveCount(1)
-                    ->first()->name
-                    ->toBe('Random Guy');
-
-                return true;
-            });
-});
-
-it('should be able to filter by permission.key', function () {
-
-    $admin             = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@gmail.com']);
-    $userRandom        = User::factory()->withPermission(Can::TESTING)->create(['name' => 'Random Guy', 'email' => 'random_guy@gmai.com']);
-    $permission        = Permission::where('key', '=', Can::BE_AN_ADMIN->value)->first();
-    $permissionTesting = Permission::where('key', '=', Can::TESTING->value)->first();
-
-    actingAs($admin);
-
-    Livewire::test(Customers\Index::class)
         ->assertSet('customers', function ($customers) {
             expect($customers)
-                ->toHaveCount(2);
-
-            return true;
-        })
-        ->set('search_permissions', [$permission->id, $permissionTesting->id])
-        ->assertSet('customers', function ($customers) {
-            expect($customers)
-                ->toHaveCount(2);
+                ->toHaveCount(1)
+                ->first()->name->toBe('Mario');
 
             return true;
         });
 });
-
-it('should be able to list deleted customers', function () {
-
-    $admin        = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@gmail.com']);
-    $deletedcustomers = User::factory()->count(2)->create(['deleted_at' => now()]);
-
-    actingAs($admin);
-
-    Livewire::test(Customers\Index::class)
-        ->assertSet('customers', function ($customers) {
-            expect($customers)
-                ->toHaveCount(1);
-
-            return true;
-        })
-        ->set('search_trash', true)
-        ->assertSet('customers', function ($customers) {
-            expect($customers)
-                ->toHaveCount(2);
-
-            return true;
-        });
-});
-
 it('should be able to sort by name', function () {
 
-    $admin      = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@gmail.com']);
-    $userRandom = User::factory()->withPermission(Can::TESTING)->create(['name' => 'Random Guy', 'email' => 'random_guy@gmai.com']);
+    $user      = User::factory()->create();
+    $joe      = Customer::factory()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
+    $mario = Customer::factory()->create(['name' => 'Mario', 'email' => 'random_guy@gmai.com']);
 
-    actingAs($admin);
+    actingAs($user);
 
     Livewire::test(Customers\Index::class)
         ->set('sortDirection', 'asc')
         ->set('sortColumnBy', 'name')
         ->assertSet('customers', function ($customers) {
             expect($customers)
-                ->first()->name->toBe('Admin')
-                ->and($customers)->last()->name->toBe('Random Guy');
+                ->first()->name->toBe('Joe Doe')
+                ->and($customers)->last()->name->toBe('Mario');
 
             return true;
         });
@@ -150,8 +98,8 @@ it('should be able to sort by name', function () {
         ->set('sortColumnBy', 'name')
         ->assertSet('customers', function ($customers) {
             expect($customers)
-                ->first()->name->toBe('Random Guy')
-                ->and($customers)->last()->name->toBe('Admin');
+                ->first()->name->toBe('Mario')
+                ->and($customers)->last()->name->toBe('Joe Doe');
 
             return true;
         });
@@ -160,10 +108,10 @@ it('should be able to sort by name', function () {
 
 it('should be able to paginate the result', function () {
 
-    $admin = User::factory()->admin()->create(['name' => 'Admin', 'email' => 'admin@gmail.com']);
-    User::factory()->withPermission(Can::TESTING)->count(30)->create();
+    $user      = User::factory()->create();
+    Customer::factory()->count(30)->create();
 
-    actingAs($admin);
+    actingAs($user);
 
     Livewire::test(Customers\Index::class)
         ->assertSet('customers', function (LengthAwarePaginator $customers) {

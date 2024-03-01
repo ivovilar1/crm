@@ -32,7 +32,7 @@ class Index extends Component
         return Customer::query()
             ->when(
                 $this->search_trash,
-                fn (Builder $query) => $query->onlyTrashed() /** @phpstan-ignore-line */
+                fn (Builder $query) => $query->onlyTrashed()
             );
     }
 

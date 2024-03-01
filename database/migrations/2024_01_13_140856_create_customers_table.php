@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('company', 200)->nullable();
             $table->string('position', 200)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

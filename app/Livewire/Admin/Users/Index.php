@@ -3,13 +3,11 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Enum\Can;
+use App\Models\{Permission, User};
 use App\Support\Table\Header;
 use App\Traits\Livewire\HasTable;
-use App\Models\{Permission, User};
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\{Builder, Collection};
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\{Computed, On};
 use Livewire\{Component, WithPagination};
 
@@ -63,7 +61,7 @@ class Index extends Component
     {
         return [
             'name',
-            'email'
+            'email',
         ];
     }
 
@@ -73,7 +71,7 @@ class Index extends Component
             Header::make('id', '#'),
             Header::make('name', 'Name'),
             Header::make('email', 'Email'),
-            Header::make('permissions', 'Permissions')
+            Header::make('permissions', 'Permissions'),
         ];
     }
 

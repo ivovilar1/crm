@@ -2,8 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\HandleImpersonation;
-use App\Http\Middleware\ShouldBeVerified;
+use App\Http\Middleware\{HandleImpersonation, ShouldBeVerified};
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -38,7 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            HandleImpersonation::class
+            HandleImpersonation::class,
         ],
 
         'api' => [

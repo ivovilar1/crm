@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class Archive extends Component
 {
-
     public Customer $customer;
 
     public bool $modal = false;
@@ -23,7 +22,7 @@ class Archive extends Component
     public function confirmAction(int $id): void
     {
         $this->customer = Customer::findOrFail($id);
-        $this->modal = true;
+        $this->modal    = true;
     }
     public function archive(): void
     {

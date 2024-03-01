@@ -2,7 +2,7 @@
 
 use App\Enum\Can;
 use App\Livewire\Auth\{EmailValidation, Login, Logout, Password, Register};
-use App\Livewire\{Admin, Welcome, Customers};
+use App\Livewire\{Admin, Customers, Welcome};
 use Illuminate\Support\Facades\Route;
 
 //region Login Flow
@@ -15,7 +15,7 @@ Route::get('/password/reset', Password\Reset::class)->name('password.reset');
 //endregion
 
 //region Authenticated
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', Welcome::class)->name('dashboard');
 
     //region Customers

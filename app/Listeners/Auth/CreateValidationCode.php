@@ -6,8 +6,6 @@ use App\Events\Auth\SendNewCode;
 use App\Models\User;
 use App\Notifications\Auth\ValidationCodeNotification;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class CreateValidationCode
 {
@@ -16,7 +14,7 @@ class CreateValidationCode
         /** @var User $user */
         $user = $event->user;
 
-        $user->validation_code = random_int(100000,999999);
+        $user->validation_code = random_int(100000, 999999);
         $user->save();
 
         $user->notify(new ValidationCodeNotification());

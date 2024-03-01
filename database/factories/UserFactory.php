@@ -39,9 +39,9 @@ class UserFactory extends Factory
 
     public function withValidationCode(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'email_verified_at' => null,
-            'validation_code' => random_int(100000,999999)
+            'validation_code'   => random_int(100000, 999999),
         ]);
     }
 
@@ -56,7 +56,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'deleted_at' => now(),
-            'deleted_by' => User::factory()->admin()
+            'deleted_by' => User::factory()->admin(),
         ]);
     }
 }

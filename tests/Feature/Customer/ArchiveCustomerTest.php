@@ -1,8 +1,9 @@
 <?php
 
+use App\Livewire\Customers;
 use App\Models\Customer;
 use Livewire\Livewire;
-use App\Livewire\Customers;
+
 use function Pest\Laravel\assertSoftDeleted;
 
 it('should be able to archive a customer', function () {
@@ -14,7 +15,7 @@ it('should be able to archive a customer', function () {
         ->call('archive');
 
     assertSoftDeleted('customers', [
-        'id' => $customer->id
+        'id' => $customer->id,
     ]);
 
 });
@@ -39,7 +40,6 @@ test('after archiving we should dispatch an event to tell the list to reload', f
         ->assertDispatched('customer::reload');
 });
 
-
 test('after archiving we should close the modal', function () {
 
     $customer = Customer::factory()->create();
@@ -58,19 +58,19 @@ it('should list archived customers', function () {
 
     Livewire::test(Customers\Index::class)
         ->set('search_trash', false)
-        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use($customerArchived) {
+        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use ($customerArchived) {
             expect($items->items())->toHaveCount(2)
                 ->and(collect($items->items())
-                    ->filter(fn(Customer $customer) => $customer->id == $customerArchived->id))
+                    ->filter(fn (Customer $customer) => $customer->id == $customerArchived->id))
                 ->toBeEmpty();
 
             return true;
         })
         ->set('search_trash', true)
-        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use($customerArchived) {
+        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use ($customerArchived) {
             expect($items->items())->toHaveCount(1)
                 ->and(collect($items->items())
-                    ->filter(fn(Customer $customer) => $customer->id == $customerArchived->id))
+                    ->filter(fn (Customer $customer) => $customer->id == $customerArchived->id))
                 ->not->toBeEmpty();
 
             return true;

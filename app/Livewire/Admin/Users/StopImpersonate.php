@@ -10,7 +10,7 @@ class StopImpersonate extends Component
     public function render(): View
     {
         return view('livewire.admin.users.stop-impersonate', [
-            'user' => auth()->user()
+            'user' => auth()->user(),
         ]);
     }
 

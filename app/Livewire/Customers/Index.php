@@ -7,12 +7,8 @@ use App\Support\Table\Header;
 use App\Traits\Livewire\HasTable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
-use Livewire\Component;
-use Livewire\WithPagination;
-
+use Livewire\Attributes\{Computed, On};
+use Livewire\{Component, WithPagination};
 
 class Index extends Component
 {
@@ -40,7 +36,7 @@ class Index extends Component
     {
         return [
             'name',
-            'email'
+            'email',
         ];
     }
 

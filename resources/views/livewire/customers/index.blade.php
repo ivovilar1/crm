@@ -55,6 +55,14 @@
                     @click="$dispatch('customer::archive', { id: {{ $customer->id }} })"
                     spinner class="btn-sm"
                 />
+            @else
+                <x-button
+                    id="restore-btn-{{ $customer->id }}"
+                    wire:key="restore-btn-{{ $customer->id }}"
+                    icon="o-arrow-uturn-left"
+                    @click="$dispatch('customer::restore', { id: {{ $customer->id }} })"
+                    spinner class="btn-sm"
+                />
             @endunless
         </div>
 
@@ -64,4 +72,5 @@
     {{ $this->items->links(data :['scrollTo' => false]) }}
     <livewire:customers.create/>
     <livewire:customers.archive/>
+    <livewire:customers.restore/>
 </div>

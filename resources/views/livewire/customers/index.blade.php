@@ -21,6 +21,12 @@
                 ]"
                 label="Records per page"
             />
+            <x-checkbox
+                label="Show archived customers"
+                wire:model.live="search_trash"
+                class="checkbox-primary"
+                right tight
+            />
         </div>
         <x-button @click="$dispatch('customer::create')" label="New Customer" icon="o-plus"/>
     </div>

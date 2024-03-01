@@ -35,4 +35,10 @@ class CustomerFactory extends Factory
             'position' => $this->faker->jobTitle
         ];
     }
+    public function archived(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'deleted_at' => now(),
+        ]);
+    }
 }

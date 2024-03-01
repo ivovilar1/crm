@@ -56,6 +56,7 @@ it('should be able to filter by name and email', function () {
             return true;
         })
         ->set('search', 'mar')
+        ->assertPropertyWired('search')
         ->assertSet('items', function ($items) {
             expect($items)
                 ->toHaveCount(1)
@@ -113,6 +114,7 @@ it('should be able to paginate the result', function () {
             return true;
         })
         ->set('perPage', 20)
+        ->assertPropertyWired('perPage')
         ->assertSet('items', function (LengthAwarePaginator $items) {
             expect($items)
                 ->toHaveCount(20);

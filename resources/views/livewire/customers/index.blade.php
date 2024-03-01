@@ -1,5 +1,5 @@
 <div>
-    <x-header title="Customers" separator />
+    <x-header title="Customers" separator/>
 
     <div class="flex mb-4 items-end justify-between">
         <div class="w-full flex space-x-4 items-end">
@@ -25,20 +25,35 @@
         <x-button @click="$dispatch('customer::create')" label="New Customer" icon="o-plus"/>
     </div>
 
-    <x-table  :headers="$this->headers" :rows="$this->items">
+    <x-table :headers="$this->headers" :rows="$this->items">
         @scope('header_id', $header)
-        <x-table.th :$header name="id" />
+        <x-table.th :$header name="id"/>
         @endscope
 
         @scope('header_name', $header)
-        <x-table.th :$header name="name" />
+        <x-table.th :$header name="name"/>
         @endscope
 
         @scope('header_email', $header)
-        <x-table.th :$header name="email" />
+        <x-table.th :$header name="email"/>
+        @endscope
+
+        @scope('actions', $customer)
+
+        <div class="flex items-center space-x-2">
+            <x-button
+                id="archive-btn-{{ $customer->id }}"
+                wire:key="archive-btn-{{ $customer->id }}"
+                icon="o-trash"
+                @click="$dispatch('customer::archive', { id: {{ $customer->id }} })"
+                spinner class="btn-sm"
+            />
+        </div>
+
         @endscope
     </x-table>
 
     {{ $this->items->links(data :['scrollTo' => false]) }}
-    <livewire:customers.create />
+    <livewire:customers.create/>
+    <livewire:customers.archive/>
 </div>

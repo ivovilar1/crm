@@ -12,7 +12,6 @@ use Livewire\Attributes\Computed;
 /** @property-read array $headers */
 trait HasTable
 {
-
     public ?string $search = null;
 
     public string $sortDirection = 'asc';
@@ -27,7 +26,7 @@ trait HasTable
     abstract public function searchColumns(): array;
 
     #[Computed]
-    public function items():  LengthAwarePaginator
+    public function items(): LengthAwarePaginator
     {
         $query = $this->query();
 
@@ -44,12 +43,12 @@ trait HasTable
         return collect($this->tableHeaders())
             ->map(function (Header $header) {
                 return [
-                    'key' => $header->key,
-                    'label' => $header->label,
-                    'sortColumnBy' => $this->sortColumnBy,
+                    'key'           => $header->key,
+                    'label'         => $header->label,
+                    'sortColumnBy'  => $this->sortColumnBy,
                     'sortDirection' => $this->sortDirection,
                 ];
-        })->toArray();
+            })->toArray();
     }
 
     public function sortBy(string $column, string $direction): void

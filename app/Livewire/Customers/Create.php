@@ -4,8 +4,7 @@ namespace App\Livewire\Customers;
 
 use App\Models\Customer;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
+use Livewire\Attributes\{On, Validate};
 use Livewire\Component;
 
 class Create extends Component
@@ -36,10 +35,10 @@ class Create extends Component
         $this->validate();
 
         $customer = Customer::create([
-            'type' => 'customer',
-            'name' => $this->name,
+            'type'  => 'customer',
+            'name'  => $this->name,
             'email' => $this->email,
-            'phone' => $this->phone
+            'phone' => $this->phone,
         ]);
 
         $this->modal = false;

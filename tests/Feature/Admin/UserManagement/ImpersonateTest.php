@@ -1,19 +1,16 @@
 <?php
 
-
-use App\Livewire\Admin\Users\Impersonate;
-use App\Livewire\Admin\Users\StopImpersonate;
+use App\Livewire\Admin\Users\{Impersonate, StopImpersonate};
 use App\Models\User;
 use Livewire\Livewire;
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
-use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\assertTrue;
+
+use function Pest\Laravel\{actingAs, get};
+use function PHPUnit\Framework\{assertSame, assertTrue};
 
 it('should add a key impersonate to the session with the given user', function () {
 
     $admin = User::factory()->admin()->create();
-    $user = User::factory()->create();
+    $user  = User::factory()->create();
 
     actingAs($admin);
 
@@ -23,34 +20,30 @@ it('should add a key impersonate to the session with the given user', function (
     assertTrue(session()->has('impersonate'));
     assertTrue(session()->has('impersonator'));
 
-    assertSame(session()->get('impersonate'),$user->id);
-    assertSame(session()->get('impersonator'),$admin->id);
+    assertSame(session()->get('impersonate'), $user->id);
+    assertSame(session()->get('impersonator'), $admin->id);
 
 });
 
 it('should make sure that we are logged with the impersonated user', function () {
 
-
     $admin = User::factory()->admin()->create();
-    $user = User::factory()->create();
+    $user  = User::factory()->create();
 
     actingAs($admin);
 
     expect(auth()->id())->toBe($admin->id);
-
 
     Livewire::test(Impersonate::class)
         ->call('impersonate', $user->id)
         ->assertRedirect(route('dashboard'));
 
     get(route('dashboard'))
-        ->assertSee(__("You are impersonating :name, click here to stop the impersonation.", ['name'=> $user->name]));
+        ->assertSee(__("You are impersonating :name, click here to stop the impersonation.", ['name' => $user->name]));
 
     expect(auth()->id())->toBe($user->id);
 
-
 });
-
 
 it('should be able to stop impersonation', function () {
     $admin = User::factory()->admin()->create();
@@ -76,12 +69,11 @@ it('should be able to stop impersonation', function () {
     expect(auth()->user()->id)->toBe($admin->id);
 });
 
-
 it('should have the correct permission to impersonate someone', function () {
 
-    $admin = User::factory()->admin()->create();
-    $noAdmin  = User::factory()->create();
-    $user  = User::factory()->create();
+    $admin   = User::factory()->admin()->create();
+    $noAdmin = User::factory()->create();
+    $user    = User::factory()->create();
 
     actingAs($noAdmin);
 
@@ -95,7 +87,6 @@ it('should have the correct permission to impersonate someone', function () {
         ->call('impersonate', $user->id)
         ->assertRedirect();
 });
-
 
 it('should not be possible impersonate myself', function () {
 

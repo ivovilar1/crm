@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Customer;
-use App\Models\User;
-use Livewire\Livewire;
 use App\Livewire\Customers;
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\assertDatabaseHas;
+use App\Models\{Customer, User};
+use Livewire\Livewire;
+
+use function Pest\Laravel\{actingAs, assertDatabaseHas};
 
 beforeEach(function () {
     $user = User::factory()->create();

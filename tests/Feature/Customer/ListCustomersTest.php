@@ -5,6 +5,7 @@ use App\Models\{Customer, User};
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use Livewire\Livewire;
+
 use function Pest\Laravel\{actingAs, get};
 
 it('should be able to access the route customers', function () {

@@ -1,12 +1,10 @@
 <?php
 
-
-use App\Models\User;
 use App\Livewire\Dev\Login;
+use App\Models\User;
 use Livewire\Livewire;
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\assertAuthenticatedAs;
-use function Pest\Laravel\get;
+
+use function Pest\Laravel\{actingAs, assertAuthenticatedAs, get};
 
 it('should be able to list all users of the system', function () {
 
@@ -18,11 +16,9 @@ it('should be able to list all users of the system', function () {
         ->assertSet('users', $users)
         ->assertSee($users->first()->name);
 
-
 });
 
 it('should be able to login with any user', function () {
-
 
     $user = User::factory()->create();
 
@@ -48,7 +44,6 @@ it('should not load the livewire component on production environment', function 
 
     get(route('login')) // guest.blade.php
         ->assertDontSeeLivewire('dev.login');
-
 
 });
 

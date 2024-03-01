@@ -4,12 +4,9 @@ namespace Tests\Feature\Livewire\Auth;
 
 use App\Livewire\Auth\Register;
 use App\Models\User;
-use App\Notifications\WelcomeNotification;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\{Event, Notification};
 use Livewire\Livewire;
 
 use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas};

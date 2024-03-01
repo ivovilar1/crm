@@ -4,7 +4,6 @@ namespace App\Notifications\Auth;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -35,7 +34,7 @@ class ValidationCodeNotification extends Notification
      */
     public function toMail(User $notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->line('Your verification code is: ')
                     ->line($notifiable->validation_code);
     }

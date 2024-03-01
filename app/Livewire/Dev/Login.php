@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-
 /**
- *@property-read Collection|User[]
+ *@property-read Collection|User[] $users
  */
 class Login extends Component
 {

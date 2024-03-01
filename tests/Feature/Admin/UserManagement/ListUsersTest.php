@@ -2,9 +2,9 @@
 
 use App\Enum\Can;
 use App\Livewire\Admin;
-use Livewire\Livewire;
 use App\Models\{Permission, User};
 use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Livewire;
 
 use function Pest\Laravel\{actingAs, get};
 

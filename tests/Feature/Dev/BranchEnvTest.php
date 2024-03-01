@@ -2,19 +2,19 @@
 
 use App\Livewire\Dev\BranchEnv;
 use App\Models\User;
-use Livewire\Livewire;
 use Illuminate\Support\Facades\Process;
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
+use Livewire\Livewire;
+
+use function Pest\Laravel\{actingAs, get};
 
 it('should show a current branch in the page', function () {
 
     Process::fake([
-        'git branch --show-current' => Process::result('jeremias')
+        'git branch --show-current' => Process::result('jeremias'),
     ]);
 
     Livewire::test(BranchEnv::class)
-        ->assertSet('branch','jeremias')
+        ->assertSet('branch', 'jeremias')
         ->assertSee('jeremias');
 
     Process::assertRan('git branch --show-current');
@@ -43,7 +43,6 @@ it('should not load the livewire component on production environment', function 
 
     get(route('login')) // guest.blade.php
     ->assertDontSeeLivewire('dev.login');
-
 
 });
 

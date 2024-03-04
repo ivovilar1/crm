@@ -47,6 +47,13 @@
         @scope('actions', $customer)
 
         <div class="flex items-center space-x-2">
+            <x-button
+                id="show-btn-{{ $customer->id }}"
+                wire:key="show-btn-{{ $customer->id }}"
+                icon="o-pencil"
+                @click="$dispatch('customer::update', { id: {{ $customer->id }} })"
+                spinner class="btn-sm"
+            />
             @unless($customer->trashed())
                 <x-button
                     id="archive-btn-{{ $customer->id }}"
@@ -73,4 +80,5 @@
     <livewire:customers.create/>
     <livewire:customers.archive/>
     <livewire:customers.restore/>
+    <livewire:customers.update/>
 </div>

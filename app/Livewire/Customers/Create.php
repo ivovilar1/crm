@@ -2,23 +2,18 @@
 
 namespace App\Livewire\Customers;
 
-use App\Models\Customer;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\{On, Validate};
+use Mary\Traits\Toast;
+use Livewire\Attributes\{On};
 use Livewire\Component;
 
 class Create extends Component
 {
-    #[Validate('required|min:3|max:255')]
-    public ?string $name = null;
-
-    #[Validate('required_without:phone|email|unique:customers')]
-    public ?string $email = null;
-
-    #[Validate('required_without:email|unique:customers')]
-    public ?string $phone = null;
+    use Toast;
+    public Form $form;
 
     public bool $modal = false;
+
     public function render(): View
     {
         return view('livewire.customers.create');
@@ -27,20 +22,17 @@ class Create extends Component
     #[On('customer::create')]
     public function open(): void
     {
-        $this->resetErrorBag();
+        $this->form->resetErrorBag();
         $this->modal = true;
     }
+
     public function save(): void
     {
-        $this->validate();
-
-        $customer = Customer::create([
-            'type'  => 'customer',
-            'name'  => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-        ]);
+        $this->form->create();
 
         $this->modal = false;
+        $this->dispatch('customer::reload')->to('customers.index');
+
+        $this->success('Customer created!');
     }
 }

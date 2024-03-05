@@ -18,6 +18,7 @@
                 wire:model="form.amount"
                 prefix="R$"
                 locale="pt-BR"
+                money
             />
         </div>
         <x-slot:actions>

@@ -1,9 +1,9 @@
 <?php
 
 use App\Livewire\Opportunities;
+use Livewire\Livewire;
 use App\Models\{Opportunity, User};
 
-use Livewire\Livewire;
 use function Pest\Laravel\{actingAs, assertDatabaseHas};
 
 beforeEach(function () {
@@ -16,21 +16,19 @@ it('should be able to update a opportunity', function () {
         ->call('load', $this->opportunity->id)
         ->set('form.title', 'John Doe')
         ->assertPropertyWired('form.title')
-        ->call('load', $this->opportunity->id)
         ->set('form.status', 'won')
         ->assertPropertyWired('form.status')
-        ->call('load', $this->opportunity->id)
-        ->set('form.amount', '123456789')
+        ->set('form.amount', '123.45')
         ->assertPropertyWired('form.amount')
         ->call('save')
         ->assertMethodWiredToForm('save')
         ->assertHasNoErrors();
 
     assertDatabaseHas('opportunities', [
-        'id'    => $this->opportunity->id,
+        'id'     => $this->opportunity->id,
         'title'  => 'John Doe',
-        'status' => 'joe@doe.com',
-        'amount' => '123456789',
+        'status' => 'won',
+        'amount' => '12345',
     ]);
 });
 

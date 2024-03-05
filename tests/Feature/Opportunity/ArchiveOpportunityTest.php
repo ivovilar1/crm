@@ -1,76 +1,76 @@
 <?php
 
-use App\Livewire\Customers;
-use App\Models\Customer;
+use App\Livewire\Opportunities;
+use App\Models\Opportunity;
 use Livewire\Livewire;
 
 use function Pest\Laravel\assertSoftDeleted;
 
-it('should be able to archive a customer', function () {
+it('should be able to archive a opportunity', function () {
 
-    $customer = Customer::factory()->create();
+    $opportunity = Opportunity::factory()->create();
 
-    Livewire::test(Customers\Archive::class)
-        ->set('customer', $customer)
+    Livewire::test(Opportunities\Archive::class)
+        ->set('opportunity', $opportunity)
         ->call('archive');
 
-    assertSoftDeleted('customers', [
-        'id' => $customer->id,
+    assertSoftDeleted('opportunities', [
+        'id' => $opportunity->id,
     ]);
 
 });
 
-test('when confirming we should load the customer and set modal to true', function () {
+test('when confirming we should load the opportunity and set modal to true', function () {
 
-    $customer = Customer::factory()->create();
+    $opportunity = Opportunity::factory()->create();
 
-    Livewire::test(Customers\Archive::class)
-        ->call('confirmAction', $customer->id)
-        ->assertSet('customer.id', $customer->id)
+    Livewire::test(Opportunities\Archive::class)
+        ->call('confirmAction', $opportunity->id)
+        ->assertSet('opportunity.id', $opportunity->id)
         ->assertSet('modal', true);
 });
 
 test('after archiving we should dispatch an event to tell the list to reload', function () {
 
-    $customer = Customer::factory()->create();
+    $opportunity = Opportunity::factory()->create();
 
-    Livewire::test(Customers\Archive::class)
-        ->set('customer', $customer)
+    Livewire::test(Opportunities\Archive::class)
+        ->set('opportunity', $opportunity)
         ->call('archive')
-        ->assertDispatched('customer::reload');
+        ->assertDispatched('opportunity::reload');
 });
 
 test('after archiving we should close the modal', function () {
 
-    $customer = Customer::factory()->create();
+    $opportunity = Opportunity::factory()->create();
 
-    Livewire::test(Customers\Archive::class)
-        ->set('customer', $customer)
+    Livewire::test(Opportunities\Archive::class)
+        ->set('opportunity', $opportunity)
         ->call('archive')
         ->assertSet('modal', false);
 });
 
-it('should list archived customers', function () {
+it('should list archived opportunitys', function () {
 
-    Customer::factory()->count(2)->create();
+    Opportunity::factory()->count(2)->create();
 
-    $customerArchived = Customer::factory()->archived()->create();
+    $opportunityArchived = Opportunity::factory()->deleted()->create();
 
-    Livewire::test(Customers\Index::class)
+    Livewire::test(Opportunities\Index::class)
         ->set('search_trash', false)
-        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use ($customerArchived) {
+        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use ($opportunityArchived) {
             expect($items->items())->toHaveCount(2)
                 ->and(collect($items->items())
-                    ->filter(fn (Customer $customer) => $customer->id == $customerArchived->id))
+                    ->filter(fn (Opportunity $opportunity) => $opportunity->id == $opportunityArchived->id))
                 ->toBeEmpty();
 
             return true;
         })
         ->set('search_trash', true)
-        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use ($customerArchived) {
+        ->assertSet('items', function (\Illuminate\Pagination\LengthAwarePaginator $items) use ($opportunityArchived) {
             expect($items->items())->toHaveCount(1)
                 ->and(collect($items->items())
-                    ->filter(fn (Customer $customer) => $customer->id == $customerArchived->id))
+                    ->filter(fn (Opportunity $opportunity) => $opportunity->id == $opportunityArchived->id))
                 ->not->toBeEmpty();
 
             return true;
@@ -80,11 +80,11 @@ it('should list archived customers', function () {
 
 test('making sure archive method is wired', function () {
 
-    Livewire::test(Customers\Archive::class)
+    Livewire::test(Opportunities\Archive::class)
         ->assertMethodWired('archive');
 });
 
 test('check if component is in the page', function () {
-    Livewire::test(Customers\Index::class)
-        ->assertContainsLivewireComponent('customers.archive');
+    Livewire::test(Opportunities\Index::class)
+        ->assertContainsLivewireComponent('opportunities.archive');
 });

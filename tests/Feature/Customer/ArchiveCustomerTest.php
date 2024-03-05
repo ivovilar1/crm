@@ -54,7 +54,7 @@ it('should list archived customers', function () {
 
     Customer::factory()->count(2)->create();
 
-    $customerArchived = Customer::factory()->archived()->create();
+    $customerArchived = Customer::factory()->deleted()->create();
 
     Livewire::test(Customers\Index::class)
         ->set('search_trash', false)

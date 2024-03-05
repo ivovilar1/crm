@@ -8,7 +8,7 @@ use function Pest\Laravel\{assertNotSoftDeleted, assertSoftDeleted};
 
 it('should be able to restore a customer', function () {
 
-    $customerArchived = Customer::factory()->archived()->create();
+    $customerArchived = Customer::factory()->deleted()->create();
 
     Livewire::test(Customers\Restore::class)
         ->set('customer', $customerArchived)
@@ -22,7 +22,7 @@ it('should be able to restore a customer', function () {
 
 test('when confirming we should load the customer and set modal to true', function () {
 
-    $customer = Customer::factory()->archived()->create();
+    $customer = Customer::factory()->deleted()->create();
 
     Livewire::test(Customers\Restore::class)
         ->call('confirmAction', $customer->id)
@@ -33,7 +33,7 @@ test('when confirming we should load the customer and set modal to true', functi
 
 test('after restoring we should dispatch an event to tell the list to reload', function () {
 
-    $customer = Customer::factory()->archived()->create();
+    $customer = Customer::factory()->deleted()->create();
 
     Livewire::test(Customers\Restore::class)
         ->set('customer', $customer)
@@ -43,7 +43,7 @@ test('after restoring we should dispatch an event to tell the list to reload', f
 
 test('after restoring we should close the modal', function () {
 
-    $customer = Customer::factory()->archived()->create();
+    $customer = Customer::factory()->deleted()->create();
 
     Livewire::test(Customers\Restore::class)
         ->set('customer', $customer)

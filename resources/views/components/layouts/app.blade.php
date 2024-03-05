@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? config('app.name') }}</title>
 
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/gh/robsontenorio/mary@0.44.2/libs/currency/currency.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen font-sans antialiased">
-<x-toast />
+<x-toast/>
 @if(session('impersonate'))
-    <livewire:admin.users.stop-impersonate />
+    <livewire:admin.users.stop-impersonate/>
 @endif
 
 @if(!app()->environment('production'))
-    <x-devbar />
+    <x-devbar/>
 @endif
 
 <x-main full-width>
@@ -38,12 +40,13 @@
 
             <x-menu-item title="Home" icon="o-home" :link="route('dashboard')"/>
             <x-menu-item title="Customers" icon="o-building-storefront" :link="route('customers')"/>
+            <x-menu-item title="Opportunities" icon="o-currency-dollar" :link="route('opportunities')"/>
 
             @can(\App\Enum\Can::BE_AN_ADMIN->value)
-            <x-menu-sub title="Admin" icon="o-lock-closed">
-                <x-menu-item title="Dashboard" icon="o-chart-bar-square" :link="route('admin.dashboard')"/>
-                <x-menu-item title="Users" icon="o-users" :link="route('admin.users')"/>
-            </x-menu-sub>
+                <x-menu-sub title="Admin" icon="o-lock-closed">
+                    <x-menu-item title="Dashboard" icon="o-chart-bar-square" :link="route('admin.dashboard')"/>
+                    <x-menu-item title="Users" icon="o-users" :link="route('admin.users')"/>
+                </x-menu-sub>
             @endcan
 
         </x-menu>

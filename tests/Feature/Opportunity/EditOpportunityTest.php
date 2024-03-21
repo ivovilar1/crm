@@ -14,6 +14,8 @@ beforeEach(function () {
 it('should be able to update a opportunity', function () {
     Livewire::test(Opportunities\Update::class)
         ->call('load', $this->opportunity->id)
+        ->set('form.customer_id', $this->opportunity->customer_id)
+        ->assertPropertyWired('form.customer_id')
         ->set('form.title', 'John Doe')
         ->assertPropertyWired('form.title')
         ->set('form.status', 'won')

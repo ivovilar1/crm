@@ -5,7 +5,7 @@
             <x-choices
                 label="Customer"
                 wire:model="form.customer_id"
-                :options="$customers"
+                :options="$form->customers"
                 single
                 searchable
             />

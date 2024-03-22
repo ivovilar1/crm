@@ -19,8 +19,6 @@ class Update extends Component
 
     public bool $modal = false;
 
-    public Collection|array $customers = [];
-
     public function render(): View
     {
         return view('livewire.opportunities.update');
@@ -49,13 +47,6 @@ class Update extends Component
 
     public function search(string $value = ''): void
     {
-        $this->customers = Customer::query()
-            ->where('name', 'like', "%$value%")
-            ->take(5)
-            ->orderBy('name')
-            ->get(['id', 'name'])
-            ->merge(
-                Customer::query()->whereId($this->form->customer_id)->get(['id', 'name'])
-            );
+        $this->form->searchCustomers($value);
     }
 }

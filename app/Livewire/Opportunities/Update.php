@@ -31,7 +31,6 @@ class Update extends Component
         $this->form->setOpportunity($opportunity);
 
         $this->form->resetErrorBag();
-        $this->search();
         $this->modal = true;
     }
 

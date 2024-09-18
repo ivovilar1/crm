@@ -47,9 +47,19 @@
         @scope('actions', $customer)
 
         <div class="flex items-center space-x-2">
-            <x-button
+
+            <a
                 id="show-btn-{{ $customer->id }}"
                 wire:key="show-btn-{{ $customer->id }}"
+                href="{{ route('customers.show', $customer) }}"
+                class="btn btn-sm"
+            >
+                <x-icon name="o-eye" />
+            </a>
+
+            <x-button
+                id="update-btn-{{ $customer->id }}"
+                wire:key="update-btn-{{ $customer->id }}"
                 icon="o-pencil"
                 @click="$dispatch('customer::update', { id: {{ $customer->id }} })"
                 spinner class="btn-sm"

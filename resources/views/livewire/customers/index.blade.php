@@ -47,6 +47,16 @@
         @scope('actions', $customer)
 
         <div class="flex items-center space-x-2">
+
+            <a
+                id="show-btn-{{ $customer->id }}"
+                wire:key="show-btn-{{ $customer->id }}"
+                href="{{ route('customers.show', $customer) }}"
+                class="btn btn-sm"
+            >
+                <x-icon name="o-eye"/>
+            </a>
+
             <x-button
                 id="show-btn-{{ $customer->id }}"
                 wire:key="show-btn-{{ $customer->id }}"

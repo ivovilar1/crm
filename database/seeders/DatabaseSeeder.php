@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UsersSeeder::class,
             CustomerSeeder::class,
-            OpportunitySeeder::class
+            OpportunitySeeder::class,
+            TaskSeeder::class,
         ]);
     }
 }

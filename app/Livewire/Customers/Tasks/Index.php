@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Customers\Tasks;
 
+use App\Actions\DataSort;
 use App\Models\Customer;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\{Computed, On};
 use Livewire\Component;
 
@@ -33,7 +33,6 @@ class Index extends Component
 
     public function updateTaskOrder(array $data): void
     {
-        $orders = collect($data)->pluck('value')->join(',');
-        DB::table('tasks')->update(['sort_order' => DB::raw("field(id, $orders)")]);
+        (new DataSort('tasks', $data, 'value'))->run();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Opportunities;
 
+use App\Actions\DataSort;
 use App\Models\Opportunity;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -96,8 +97,7 @@ class Board extends Component
     }
     private function updateSortOrders(supportCollection $collection): void
     {
-        $sortOrder = $collection->filter(fn($f) => filled($f))->join(',');
 
-        DB::table('opportunities')->update(['sort_order' => DB::raw("field(id, $sortOrder)")]);
+        (new DataSort('opportunities', $collection->filter(fn ($f) => filled($f))))->run();
     }
 }

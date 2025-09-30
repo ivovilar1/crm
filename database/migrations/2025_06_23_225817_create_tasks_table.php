@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('assigned_to')->references('id')->on('users')->nullOnDelete();
             $table->string('title');
             $table->dateTime('done_at')->nullable();
+            $table->unsignedSmallInteger('sort_order')->default(0);
             $table->timestamps();
         });
     }

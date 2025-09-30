@@ -7,7 +7,7 @@
                 <button wire:sortable.handle title="{{ __('Drag to change order')}}" class="cursor-grab">
                     <x-icon name="o-queue-list" class="h-4 w-4 mt-px opacity-30" />
                 </button>
-                <input id="task-{{ $task->id }}" type="checkbox" value="1" @if ($task->done_at) checked @endif />
+                <input id="task-{{ $task->id }}" type="checkbox" wire:click="toggleCheck({{ $task->id }}, 'done')" value="1" @if ($task->done_at) checked @endif />
                 <label for="task-{{ $task->id }}">{{ $task->title }}</label>
                 <select>
                     <option>assigned to: {{ $task->assignedTo?->name }}</option>
@@ -21,7 +21,7 @@
     <ul class="flex flex-col gap-1">
         @foreach ($this->doneTasks as $task)
             <li class="flex gap-2">
-                <input id="task-{{ $task->id }}" type="checkbox" value="1" @if ($task->done_at) checked @endif />
+                <input id="task-{{ $task->id }}" type="checkbox" wire:click="toggleCheck({{ $task->id }}, 'pending')" value="1" @if ($task->done_at) checked @endif />
                 <label for="task-{{ $task->id }}">{{ $task->title }}</label>
                 <div> assigned to: {{ $task->assignedTo?->name }} </div>
             </li>

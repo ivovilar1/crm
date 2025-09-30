@@ -1,9 +1,12 @@
 <div class="p-4">
     <livewire:customers.tasks.create :customer="$customer" />
     <div class="uppercase font-bold text-slate-600 text-xs mb-2">Pending [{{ $this->notDoneTasks->count() }}]</div>
-    <ul class="flex flex-col gap-1 mb-6">
+    <ul class="flex flex-col gap-1 mb-6" wire:sortable="updateTaskOrder" wire:sortable-group.options="{ animation: 100}">
         @foreach ($this->notDoneTasks as $task)
-            <li>
+            <li wire:sortable.item="{{ $task->id }}" wire:key="task-{{ $task->id }}">
+                <button wire:sortable.handle title="{{ __('Drag to change order')}}" class="cursor-grab">
+                    <x-icon name="o-queue-list" class="h-4 w-4 mt-px opacity-30" />
+                </button>
                 <input id="task-{{ $task->id }}" type="checkbox" value="1" @if ($task->done_at) checked @endif />
                 <label for="task-{{ $task->id }}">{{ $task->title }}</label>
                 <select>

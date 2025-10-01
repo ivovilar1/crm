@@ -16,4 +16,9 @@ class Customer extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
 }
